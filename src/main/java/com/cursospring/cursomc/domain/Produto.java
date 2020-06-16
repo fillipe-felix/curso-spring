@@ -7,25 +7,31 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_categoria")
-public class Categoria implements Serializable {
+@Table(name = "tb_produto")
+public class Produto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
+    private Double preco;
 
+    @ManyToMany
+    @JoinTable(
+            name = "tb_produto_categoria",
+            joinColumns = @JoinColumn(name = "produto_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private List<Categoria> categorias = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "categorias")
-    private List<Produto> produtos = new ArrayList<>();
-
-    public Categoria() {
+    public Produto() {
 
     }
 
-    public Categoria(Integer id, String nome) {
+    public Produto(Integer id, String nome, Double preco) {
         this.id = id;
         this.nome = nome;
+        this.preco = preco;
     }
 
     public Integer getId() {
@@ -44,12 +50,20 @@ public class Categoria implements Serializable {
         this.nome = nome;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public Double getPreco() {
+        return preco;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
+    public List<Categoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
     }
 
     @Override
@@ -57,15 +71,13 @@ public class Categoria implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Categoria categoria = (Categoria) o;
+        Produto produto = (Produto) o;
 
-        return Objects.equals(id, categoria.id);
+        return Objects.equals(id, produto.id);
     }
 
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
-
-
 }
