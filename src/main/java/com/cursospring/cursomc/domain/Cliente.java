@@ -1,6 +1,7 @@
 package com.cursospring.cursomc.domain;
 
 import com.cursospring.cursomc.domain.enums.TipoCliente;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class Cliente implements Serializable {
     @CollectionTable(name = "tb_telefone")
     private Set<String> telefones = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 
