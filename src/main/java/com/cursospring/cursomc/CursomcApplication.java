@@ -9,7 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
@@ -112,7 +111,7 @@ public class CursomcApplication implements CommandLineRunner {
         cliente1.getPedidos().addAll(Arrays.asList(pedido1, pedido2));
 
 
-        pedidoRepository.saveAll(Arrays.asList(pedido1,pedido2));
+        pedidoRepository.saveAll(Arrays.asList(pedido1, pedido2));
         pagamentoRepository.saveAll(Arrays.asList(pagamento1, pagamento2));
 
         ItemPedido itemPedido1 = new ItemPedido(pedido1, produto1, 0.00, 1, 2000.00);

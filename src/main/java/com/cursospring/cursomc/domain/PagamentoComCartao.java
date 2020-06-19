@@ -5,11 +5,11 @@ import com.cursospring.cursomc.domain.enums.EstadoPagamento;
 import javax.persistence.Entity;
 
 @Entity
-public class PagamentoComCartao extends Pagamento{
+public class PagamentoComCartao extends Pagamento {
 
     private Integer numeroDeParcelas;
 
-    public PagamentoComCartao(){
+    public PagamentoComCartao() {
 
     }
 

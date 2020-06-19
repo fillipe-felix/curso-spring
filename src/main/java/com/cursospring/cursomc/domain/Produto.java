@@ -1,6 +1,5 @@
 package com.cursospring.cursomc.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -17,7 +16,7 @@ public class Produto implements Serializable {
     private String nome;
     private Double preco;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "tb_produto_categoria",
@@ -41,7 +40,7 @@ public class Produto implements Serializable {
     }
 
     @JsonIgnore
-    public List<Pedido> getPedidos(){
+    public List<Pedido> getPedidos() {
         List<Pedido> lista = new ArrayList<>();
         for (ItemPedido x : itens) {
             lista.add(x.getPedido());

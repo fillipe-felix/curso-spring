@@ -13,17 +13,13 @@ import java.util.Set;
 @Table(name = "tb_pedido")
 public class Pedido implements Serializable {
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
+    public Pagamento pagamento;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date instante;
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
-    public Pagamento pagamento;
-
-
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
@@ -35,7 +31,7 @@ public class Pedido implements Serializable {
     @OneToMany(mappedBy = "id.pedido")
     private Set<ItemPedido> itens = new HashSet<>();
 
-    public Pedido(){
+    public Pedido() {
 
     }
 
@@ -82,16 +78,16 @@ public class Pedido implements Serializable {
         return enderecoDeEntrega;
     }
 
+    public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
+        this.enderecoDeEntrega = enderecoDeEntrega;
+    }
+
     public Set<ItemPedido> getItens() {
         return itens;
     }
 
     public void setItens(Set<ItemPedido> itens) {
         this.itens = itens;
-    }
-
-    public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
-        this.enderecoDeEntrega = enderecoDeEntrega;
     }
 
     @Override
