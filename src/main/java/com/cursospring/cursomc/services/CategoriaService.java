@@ -20,7 +20,19 @@ public class CategoriaService {
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
     }
 
-    public Categoria insert(Categoria categoria){
+    public Categoria insert(Categoria obj){
+        //obj.setId(null);
+        return categoriaRepository.save(obj);
+    }
+
+    public Categoria update(Integer id, Categoria obj){
+        Categoria categoria = categoriaRepository.getOne(id);
+        updateData(categoria, obj);
         return categoriaRepository.save(categoria);
+    }
+
+    private void updateData(Categoria categoria, Categoria obj) {
+        categoria.setId(obj.getId());
+        categoria.setNome(obj.getNome());
     }
 }

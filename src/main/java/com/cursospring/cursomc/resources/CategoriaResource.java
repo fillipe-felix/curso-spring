@@ -18,7 +18,7 @@ public class CategoriaResource {
     private CategoriaService categoriaService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> findById(@PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<Categoria> findById(@PathVariable Integer id) throws ObjectNotFoundException {
 
 
         Categoria obj = categoriaService.findById(id);
@@ -31,5 +31,11 @@ public class CategoriaResource {
         obj = categoriaService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Categoria> update(@PathVariable Integer id, @RequestBody Categoria obj){
+        obj = categoriaService.update(id, obj);
+        return ResponseEntity.noContent().build();
     }
 }
