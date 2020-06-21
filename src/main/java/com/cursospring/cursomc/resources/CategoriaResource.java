@@ -2,6 +2,7 @@ package com.cursospring.cursomc.resources;
 
 import com.cursospring.cursomc.domain.Categoria;
 import com.cursospring.cursomc.services.CategoriaService;
+import com.cursospring.cursomc.services.exceptions.DataIntegrityException;
 import com.cursospring.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +35,14 @@ public class CategoriaResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Categoria> update(@PathVariable Integer id, @RequestBody Categoria obj){
+    public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody Categoria obj) throws ObjectNotFoundException {
         obj = categoriaService.update(id, obj);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) throws ObjectNotFoundException, DataIntegrityException {
+        categoriaService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
