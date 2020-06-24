@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,7 +44,8 @@ public class CategoriaResource {
     //Foi utilizado URI para que no retorno da requisição post seja retornado o metodo http 201 e a uri do obj criado
     // no header da requisição
     @PostMapping
-    public ResponseEntity<Categoria> insert(@RequestBody Categoria obj){
+    public ResponseEntity<Categoria> insert(@Valid @RequestBody CategoriaDTO objDTO){
+        Categoria obj = categoriaService.fromDTO(objDTO);
         obj = categoriaService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
@@ -51,8 +53,10 @@ public class CategoriaResource {
 
     //noContent para que retorne  http 204
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody Categoria obj) throws ObjectNotFoundException {
-        obj = categoriaService.update(id, obj);
+    public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDTO, @PathVariable Integer id) throws ObjectNotFoundException {
+        Categoria obj = categoriaService.fromDTO(objDTO);
+        obj.setId(id);
+        obj = categoriaService.update(obj);
         return ResponseEntity.noContent().build();
     }
 

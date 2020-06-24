@@ -1,6 +1,7 @@
 package com.cursospring.cursomc.services;
 
 import com.cursospring.cursomc.domain.Categoria;
+import com.cursospring.cursomc.dto.CategoriaDTO;
 import com.cursospring.cursomc.repositories.CategoriaRepository;
 import com.cursospring.cursomc.services.exceptions.DataIntegrityException;
 import com.cursospring.cursomc.services.exceptions.ObjectNotFoundException;
@@ -35,15 +36,13 @@ public class CategoriaService {
         return categoriaRepository.save(obj);
     }
 
-    public Categoria update(Integer id, Categoria obj) throws ObjectNotFoundException {
-        findById(id);
-        Categoria categoria = categoriaRepository.getOne(id);
+    public Categoria update(Categoria obj) throws ObjectNotFoundException {
+        Categoria categoria = findById(obj.getId());
         updateData(categoria, obj);
         return categoriaRepository.save(categoria);
     }
 
     private void updateData(Categoria categoria, Categoria obj) {
-        //categoria.setId(obj.getId());
         categoria.setNome(obj.getNome());
     }
 
@@ -60,5 +59,9 @@ public class CategoriaService {
     public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return categoriaRepository.findAll(pageRequest);
+    }
+
+    public Categoria fromDTO(CategoriaDTO objDTO){
+        return new Categoria(objDTO.getId(), objDTO.getNome());
     }
 }
