@@ -37,9 +37,9 @@ public class CategoriaService {
     }
 
     public Categoria update(Categoria obj) throws ObjectNotFoundException {
-        Categoria categoria = findById(obj.getId());
-        updateData(categoria, obj);
-        return categoriaRepository.save(categoria);
+        Categoria newCategoria = findById(obj.getId());
+        updateData(newCategoria, obj);
+        return categoriaRepository.save(newCategoria);
     }
 
     private void updateData(Categoria categoria, Categoria obj) {
