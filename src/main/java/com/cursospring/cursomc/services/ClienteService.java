@@ -1,11 +1,9 @@
 package com.cursospring.cursomc.services;
 
-import com.cursospring.cursomc.domain.Categoria;
 import com.cursospring.cursomc.domain.Cidade;
 import com.cursospring.cursomc.domain.Cliente;
 import com.cursospring.cursomc.domain.Endereco;
 import com.cursospring.cursomc.domain.enums.TipoCliente;
-import com.cursospring.cursomc.dto.CategoriaDTO;
 import com.cursospring.cursomc.dto.ClienteDTO;
 import com.cursospring.cursomc.dto.ClienteNewDTO;
 import com.cursospring.cursomc.repositories.ClienteRepository;
@@ -71,16 +69,16 @@ public class ClienteService {
     }
 
     //Faz a paginação no banco de dados com os parametros opcionais
-    public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+    public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return clienteRepository.findAll(pageRequest);
     }
 
-    public Cliente fromDTO(ClienteDTO objDTO){
+    public Cliente fromDTO(ClienteDTO objDTO) {
         return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null);
     }
 
-    public Cliente fromDTO(ClienteNewDTO objDTO){
+    public Cliente fromDTO(ClienteNewDTO objDTO) {
         Cliente cliente = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(),
                 TipoCliente.toEnum(objDTO.getTipoCliente()));
         Cidade cidade = new Cidade(objDTO.getCidadeId(), null, null);
@@ -88,10 +86,10 @@ public class ClienteService {
                 objDTO.getBairro(), objDTO.getCep(), cidade, cliente);
         cliente.getEnderecos().add(endereco);
         cliente.getTelefones().add(objDTO.getTelefone1());
-        if (objDTO.getTelefone2() != null){
+        if (objDTO.getTelefone2() != null) {
             cliente.getTelefones().add(objDTO.getTelefone2());
         }
-        if (objDTO.getTelefone3() != null){
+        if (objDTO.getTelefone3() != null) {
             cliente.getTelefones().add(objDTO.getTelefone3());
         }
 

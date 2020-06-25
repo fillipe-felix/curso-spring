@@ -1,8 +1,6 @@
 package com.cursospring.cursomc.resources;
 
-import com.cursospring.cursomc.domain.Categoria;
 import com.cursospring.cursomc.domain.Cliente;
-import com.cursospring.cursomc.dto.CategoriaDTO;
 import com.cursospring.cursomc.dto.ClienteDTO;
 import com.cursospring.cursomc.dto.ClienteNewDTO;
 import com.cursospring.cursomc.services.ClienteService;
@@ -33,7 +31,7 @@ public class ClienteResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClienteDTO>> findAll(){
+    public ResponseEntity<List<ClienteDTO>> findAll() {
         List<Cliente> categoriaList = clienteService.findAll();
         //percorre a categoriaList e transforma em um elemento categoriaDTOList para que nao retorne os produtos na
         // lista de categorias
@@ -43,7 +41,7 @@ public class ClienteResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO){
+    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO) {
         Cliente obj = clienteService.fromDTO(objDTO);
         obj = clienteService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -72,7 +70,7 @@ public class ClienteResource {
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
             @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
-            @RequestParam(value = "direction", defaultValue = "ASC") String direction){
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 
 
         Page<Cliente> categoriaList = clienteService.findPage(page, linesPerPage, orderBy, direction);
