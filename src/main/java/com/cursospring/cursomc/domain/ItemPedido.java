@@ -88,4 +88,8 @@ public class ItemPedido implements Serializable {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+    public Double getSubTotal(){
+        return (preco - desconto) * quantidade;
+    }
 }

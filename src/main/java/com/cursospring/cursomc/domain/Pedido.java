@@ -104,4 +104,13 @@ public class Pedido implements Serializable {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+    public Double getValorTotal(){
+        double soma = 0.0;
+
+        for (ItemPedido itemPedido : itens) {
+            soma = soma + itemPedido.getSubTotal();
+        }
+        return soma;
+    }
 }
