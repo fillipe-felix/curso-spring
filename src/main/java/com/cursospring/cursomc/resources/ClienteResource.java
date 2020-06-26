@@ -32,12 +32,12 @@ public class ClienteResource {
 
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> findAll() {
-        List<Cliente> categoriaList = clienteService.findAll();
-        //percorre a categoriaList e transforma em um elemento categoriaDTOList para que nao retorne os produtos na
-        // lista de categorias
-        List<ClienteDTO> categoriaDTOList =
-                categoriaList.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(categoriaDTOList);
+        List<Cliente> clienteList = clienteService.findAll();
+        //percorre a clienteList e transforma em um elemento categoriaDTOList para que nao retorne os produtos na
+        // lista de clientes
+        List<ClienteDTO> clienteDTOList =
+                clienteList.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(clienteDTOList);
     }
 
     @PostMapping
@@ -73,8 +73,8 @@ public class ClienteResource {
             @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 
 
-        Page<Cliente> categoriaList = clienteService.findPage(page, linesPerPage, orderBy, direction);
-        Page<ClienteDTO> categoriaDTOList = categoriaList.map(obj -> new ClienteDTO(obj));
-        return ResponseEntity.ok().body(categoriaDTOList);
+        Page<Cliente> clienteList = clienteService.findPage(page, linesPerPage, orderBy, direction);
+        Page<ClienteDTO> clienteDTOList = clienteList.map(obj -> new ClienteDTO(obj));
+        return ResponseEntity.ok().body(clienteDTOList);
     }
 }

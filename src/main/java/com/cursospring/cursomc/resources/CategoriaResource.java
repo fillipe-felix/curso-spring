@@ -33,7 +33,7 @@ public class CategoriaResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoriaDTO>> findAll(){
+    public ResponseEntity<List<CategoriaDTO>> findAll() {
         List<Categoria> categoriaList = categoriaService.findAll();
         //percorre a categoriaList e transforma em um elemento categoriaDTOList para que nao retorne os produtos na
         // lista de categorias
@@ -44,7 +44,7 @@ public class CategoriaResource {
     //Foi utilizado URI para que no retorno da requisição post seja retornado o metodo http 201 e a uri do obj criado
     // no header da requisição
     @PostMapping
-    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO){
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
         Categoria obj = categoriaService.fromDTO(objDTO);
         obj = categoriaService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -73,7 +73,7 @@ public class CategoriaResource {
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
             @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
-            @RequestParam(value = "direction", defaultValue = "ASC") String direction){
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 
 
         Page<Categoria> categoriaList = categoriaService.findPage(page, linesPerPage, orderBy, direction);
