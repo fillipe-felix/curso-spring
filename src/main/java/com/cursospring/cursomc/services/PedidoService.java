@@ -1,6 +1,5 @@
 package com.cursospring.cursomc.services;
 
-import com.cursospring.cursomc.domain.Cliente;
 import com.cursospring.cursomc.domain.Pedido;
 import com.cursospring.cursomc.repositories.PedidoRepository;
 import com.cursospring.cursomc.services.exceptions.ObjectNotFoundException;
