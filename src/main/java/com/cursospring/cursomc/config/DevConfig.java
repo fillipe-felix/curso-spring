@@ -1,6 +1,8 @@
 package com.cursospring.cursomc.config;
 
 import com.cursospring.cursomc.services.DBService;
+import com.cursospring.cursomc.services.EmailService;
+import com.cursospring.cursomc.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,5 +30,10 @@ public class DevConfig {
 
         dbService.instantiateDatabase();
         return true;
+    }
+
+    @Bean
+    public EmailService emailService(){
+        return new SmtpEmailService();
     }
 }
