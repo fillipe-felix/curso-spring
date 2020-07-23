@@ -3,6 +3,7 @@ package com.cursospring.cursomc.services;
 import com.cursospring.cursomc.CursomcApplication;
 import com.cursospring.cursomc.domain.*;
 import com.cursospring.cursomc.domain.enums.EstadoPagamento;
+import com.cursospring.cursomc.domain.enums.Perfil;
 import com.cursospring.cursomc.domain.enums.TipoCliente;
 import com.cursospring.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,16 +117,23 @@ public class DBService {
         Cliente cliente1 = new Cliente(null, "Maria Silva", "felipesoares_14@hotmail.com", "432423424",
                 TipoCliente.PESSOA_FISICA, bCryptPasswordEncoder.encode("123"));
 
+        Cliente cliente2 = new Cliente(null, "Ana costa", "felipesoares_14@hotmail.com", "455544",
+                TipoCliente.PESSOA_FISICA, bCryptPasswordEncoder.encode("123"));
+        cliente2.addPerfil(Perfil.ADMIN);
+
         cliente1.getTelefones().addAll(Arrays.asList("3242342", "325252242"));
+        cliente2.getTelefones().addAll(Arrays.asList("3242342", "325252242"));
 
         Endereco endereco1 = new Endereco(null, "Rua Flores", "300", "Apto 203", "Jardim", "432424", cidade1, cliente1);
         Endereco endereco2 = new Endereco(null, "Av Matos", "105", "Sala 800", "Centro", "3542354", cidade2, cliente1);
+        Endereco endereco3 = new Endereco(null, "Av Matos", "105", "Sala 800", "Centro", "3542354", cidade2, cliente2);
 
         cliente1.getEnderecos().addAll(Arrays.asList(endereco1, endereco2));
+        cliente2.getEnderecos().addAll(Arrays.asList(endereco1, endereco3));
 
-        clienteRepository.saveAll(Arrays.asList(cliente1));
+        clienteRepository.saveAll(Arrays.asList(cliente1, cliente2));
 
-        enderecoRepository.saveAll(Arrays.asList(endereco1, endereco2));
+        enderecoRepository.saveAll(Arrays.asList(endereco1, endereco2, endereco3));
 
         Pedido pedido1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cliente1, endereco1);
         Pedido pedido2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cliente1, endereco2);
