@@ -8,6 +8,7 @@ import com.cursospring.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -43,6 +44,7 @@ public class CategoriaResource {
 
     //Foi utilizado URI para que no retorno da requisição post seja retornado o metodo http 201 e a uri do obj criado
     // no header da requisição
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
         Categoria obj = categoriaService.fromDTO(objDTO);
@@ -52,6 +54,7 @@ public class CategoriaResource {
     }
 
     //noContent para que retorne  http 204
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDTO, @PathVariable Integer id) throws ObjectNotFoundException {
         Categoria obj = categoriaService.fromDTO(objDTO);
@@ -60,6 +63,7 @@ public class CategoriaResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) throws ObjectNotFoundException, DataIntegrityException {
         categoriaService.delete(id);
