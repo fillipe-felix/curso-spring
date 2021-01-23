@@ -1,5 +1,6 @@
 package com.cursospring.cursomc.services;
 
+import com.cursospring.cursomc.domain.Cliente;
 import com.cursospring.cursomc.domain.ItemPedido;
 import com.cursospring.cursomc.domain.PagamentoComBoleto;
 import com.cursospring.cursomc.domain.Pedido;
@@ -7,9 +8,13 @@ import com.cursospring.cursomc.domain.enums.EstadoPagamento;
 import com.cursospring.cursomc.repositories.ItemPedidoRepository;
 import com.cursospring.cursomc.repositories.PagamentoRepository;
 import com.cursospring.cursomc.repositories.PedidoRepository;
+import com.cursospring.cursomc.security.UserSpringSecurity;
 import com.cursospring.cursomc.services.exceptions.AuthorizationException;
 import com.cursospring.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,7 +80,15 @@ public class PedidoService {
         return obj;
     }
 
-    //produtoSerice
+    public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) throws AuthorizationException, ObjectNotFoundException {
+        UserSpringSecurity user = UserService.authenticated();
+        if (user == null){
+            throw new AuthorizationException("Acesso negado");
+        }
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        Cliente cliente = clienteService.findById(user.getId());
+        return pedidoRepository.findByCliente(cliente, pageRequest);
+    }
 
 
 }
