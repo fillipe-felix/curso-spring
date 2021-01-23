@@ -117,7 +117,7 @@ public class DBService {
         Cliente cliente1 = new Cliente(null, "Maria Silva", "felipesoares_14@hotmail.com", "432423424",
                 TipoCliente.PESSOA_FISICA, bCryptPasswordEncoder.encode("123"));
 
-        Cliente cliente2 = new Cliente(null, "Ana costa", "felipesoares_14@hotmail.com", "455544",
+        Cliente cliente2 = new Cliente(null, "Ana costa", "felipesoares_1993@hotmail.com", "455544",
                 TipoCliente.PESSOA_FISICA, bCryptPasswordEncoder.encode("123"));
         cliente2.addPerfil(Perfil.ADMIN);
 
