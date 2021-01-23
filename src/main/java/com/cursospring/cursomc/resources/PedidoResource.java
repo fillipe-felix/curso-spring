@@ -6,6 +6,7 @@ import com.cursospring.cursomc.domain.Pedido;
 import com.cursospring.cursomc.dto.CategoriaDTO;
 import com.cursospring.cursomc.services.ClienteService;
 import com.cursospring.cursomc.services.PedidoService;
+import com.cursospring.cursomc.services.exceptions.AuthorizationException;
 import com.cursospring.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class PedidoResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj) throws ObjectNotFoundException {
+    public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj) throws ObjectNotFoundException, AuthorizationException {
         obj = pedidoService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();

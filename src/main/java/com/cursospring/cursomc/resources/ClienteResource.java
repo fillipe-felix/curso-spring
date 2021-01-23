@@ -4,6 +4,7 @@ import com.cursospring.cursomc.domain.Cliente;
 import com.cursospring.cursomc.dto.ClienteDTO;
 import com.cursospring.cursomc.dto.ClienteNewDTO;
 import com.cursospring.cursomc.services.ClienteService;
+import com.cursospring.cursomc.services.exceptions.AuthorizationException;
 import com.cursospring.cursomc.services.exceptions.DataIntegrityException;
 import com.cursospring.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class ClienteResource {
     private ClienteService clienteService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Cliente> findById(@PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<Cliente> findById(@PathVariable Integer id) throws ObjectNotFoundException, AuthorizationException {
         Cliente obj = clienteService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
@@ -52,7 +53,7 @@ public class ClienteResource {
 
     //noContent para que retorne  http 204
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDTO, @PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDTO, @PathVariable Integer id) throws ObjectNotFoundException, AuthorizationException {
         Cliente obj = clienteService.fromDTO(objDTO);
         obj.setId(id);
         obj = clienteService.update(obj);
@@ -61,7 +62,7 @@ public class ClienteResource {
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) throws ObjectNotFoundException, DataIntegrityException {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) throws ObjectNotFoundException, DataIntegrityException, AuthorizationException {
         clienteService.delete(id);
         return ResponseEntity.noContent().build();
     }

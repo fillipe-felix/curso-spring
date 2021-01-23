@@ -3,11 +3,14 @@ package com.cursospring.cursomc.services;
 import com.cursospring.cursomc.domain.Cidade;
 import com.cursospring.cursomc.domain.Cliente;
 import com.cursospring.cursomc.domain.Endereco;
+import com.cursospring.cursomc.domain.enums.Perfil;
 import com.cursospring.cursomc.domain.enums.TipoCliente;
 import com.cursospring.cursomc.dto.ClienteDTO;
 import com.cursospring.cursomc.dto.ClienteNewDTO;
 import com.cursospring.cursomc.repositories.ClienteRepository;
 import com.cursospring.cursomc.repositories.EnderecoRepository;
+import com.cursospring.cursomc.security.UserSpringSecurity;
+import com.cursospring.cursomc.services.exceptions.AuthorizationException;
 import com.cursospring.cursomc.services.exceptions.DataIntegrityException;
 import com.cursospring.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +37,15 @@ public class ClienteService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public Cliente findById(Integer id) throws ObjectNotFoundException {
+    public Cliente findById(Integer id) throws ObjectNotFoundException, AuthorizationException {
+
+        UserSpringSecurity user = UserService.authenticated();
+
+
+        if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationException("Acesso negado");
+        }
+
         Optional<Cliente> obj = clienteRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id +
                 ", Tipo: " + Cliente.class.getName()));
@@ -52,7 +63,7 @@ public class ClienteService {
         return obj;
     }
 
-    public Cliente update(Cliente obj) throws ObjectNotFoundException {
+    public Cliente update(Cliente obj) throws ObjectNotFoundException, AuthorizationException {
         Cliente newCliente = findById(obj.getId());
         updateData(newCliente, obj);
         return clienteRepository.save(newCliente);
@@ -63,7 +74,7 @@ public class ClienteService {
         newCliente.setEmail(obj.getEmail());
     }
 
-    public void delete(Integer id) throws ObjectNotFoundException, DataIntegrityException {
+    public void delete(Integer id) throws ObjectNotFoundException, DataIntegrityException, AuthorizationException {
         findById(id);
         try {
             clienteRepository.deleteById(id);

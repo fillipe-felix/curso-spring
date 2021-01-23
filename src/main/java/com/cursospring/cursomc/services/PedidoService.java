@@ -7,6 +7,7 @@ import com.cursospring.cursomc.domain.enums.EstadoPagamento;
 import com.cursospring.cursomc.repositories.ItemPedidoRepository;
 import com.cursospring.cursomc.repositories.PagamentoRepository;
 import com.cursospring.cursomc.repositories.PedidoRepository;
+import com.cursospring.cursomc.services.exceptions.AuthorizationException;
 import com.cursospring.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class PedidoService {
     }
 
     @Transactional
-    public Pedido insert(Pedido obj) throws ObjectNotFoundException {
+    public Pedido insert(Pedido obj) throws ObjectNotFoundException, AuthorizationException {
         obj.setId(null);
         obj.setInstante(new Date());
         obj.setCliente(clienteService.findById(obj.getCliente().getId()));
