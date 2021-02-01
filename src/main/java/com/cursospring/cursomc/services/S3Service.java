@@ -2,6 +2,7 @@ package com.cursospring.cursomc.services;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.cursospring.cursomc.services.exceptions.FileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class S3Service {
     @Value("${s3.bucket}")
     private String bucketName;
 
-    public URI uploadFile(MultipartFile multipartFile) {
+    public URI uploadFile(MultipartFile multipartFile) throws FileException {
         try {
             String fileName = multipartFile.getOriginalFilename();
             InputStream inputStream = multipartFile.getInputStream();
@@ -33,11 +34,11 @@ public class S3Service {
 
             return uploadFile(inputStream, fileName, contentType);
         } catch (IOException e) {
-            throw new RuntimeException("Erro de IO");
+            throw new FileException("Erro de IO");
         }
     }
 
-    public URI uploadFile(InputStream inputStream, String fileName, String contentType) {
+    public URI uploadFile(InputStream inputStream, String fileName, String contentType) throws FileException {
         try {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(contentType);
@@ -50,7 +51,7 @@ public class S3Service {
 
             return s3client.getUrl(bucketName, fileName).toURI();
         } catch (URISyntaxException e) {
-            throw new RuntimeException("Erro ao converter URL para URI");
+            throw new FileException("Erro ao converter URL para URI");
         }
     }
 }

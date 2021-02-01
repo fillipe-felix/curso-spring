@@ -12,6 +12,7 @@ import com.cursospring.cursomc.repositories.EnderecoRepository;
 import com.cursospring.cursomc.security.UserSpringSecurity;
 import com.cursospring.cursomc.services.exceptions.AuthorizationException;
 import com.cursospring.cursomc.services.exceptions.DataIntegrityException;
+import com.cursospring.cursomc.services.exceptions.FileException;
 import com.cursospring.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -116,7 +117,7 @@ public class ClienteService {
         return cliente;
     }
 
-    public URI uploadProfilePicture(MultipartFile multipartFile){
+    public URI uploadProfilePicture(MultipartFile multipartFile) throws FileException {
         return s3Service.uploadFile(multipartFile);
     }
 

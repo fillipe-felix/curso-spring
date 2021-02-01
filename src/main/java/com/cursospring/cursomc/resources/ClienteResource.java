@@ -6,6 +6,7 @@ import com.cursospring.cursomc.dto.ClienteNewDTO;
 import com.cursospring.cursomc.services.ClienteService;
 import com.cursospring.cursomc.services.exceptions.AuthorizationException;
 import com.cursospring.cursomc.services.exceptions.DataIntegrityException;
+import com.cursospring.cursomc.services.exceptions.FileException;
 import com.cursospring.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -84,7 +85,7 @@ public class ClienteResource {
     }
 
     @PostMapping("/picture")
-    public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file")MultipartFile multipartFile){
+    public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file")MultipartFile multipartFile) throws FileException {
         URI uri = clienteService.uploadProfilePicture(multipartFile);
         return ResponseEntity.created(uri).build();
     }
