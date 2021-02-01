@@ -85,7 +85,7 @@ public class ClienteResource {
     }
 
     @PostMapping("/picture")
-    public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file")MultipartFile multipartFile) throws FileException {
+    public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file")MultipartFile multipartFile) throws FileException, AuthorizationException {
         URI uri = clienteService.uploadProfilePicture(multipartFile);
         return ResponseEntity.created(uri).build();
     }
