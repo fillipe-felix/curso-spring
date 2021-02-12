@@ -35,7 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //rotas que estão liberadas ser acessadas apartir de requisições do tipo GET
     private static final String[] PUBLIC_MATCHERS_GET = {
             "/produtos/**",
-            "/categorias/**"
+            "/categorias/**",
+            "/estados/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
