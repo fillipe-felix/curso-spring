@@ -34,6 +34,12 @@ public class ClienteResource {
         return ResponseEntity.ok().body(obj);
     }
 
+    @GetMapping("/email")
+    public ResponseEntity<Cliente> find(@RequestParam(value = "value") String email) throws ObjectNotFoundException, AuthorizationException {
+        Cliente obj = clienteService.finByEmail(email);
+        return ResponseEntity.ok().body(obj);
+    }
+
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> findAll() {
