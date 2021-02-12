@@ -1,40 +1,25 @@
 package com.cursospring.cursomc.resources.exception;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class StandardError implements Serializable {
 
-    private Integer status;
-    private String msg;
     private Long timestamp;
+    private Integer status;
+    private String error;
+    private String message;
+    private String path;
 
-    public StandardError(Integer status, String msg, Long timestamp) {
-        this.status = status;
-        this.msg = msg;
+    public StandardError(Long timestamp, Integer status, String error, String message, String path) {
         this.timestamp = timestamp;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
+        this.error = error;
+        this.message = message;
+        this.path = path;
     }
 }
